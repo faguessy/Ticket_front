@@ -77,55 +77,67 @@
                         </li>
                     </ul>
                 </div>
-                <div v-if="activeTab === 'open'">
+                <div v-for="(ticket, key) in tickets" v-bind:key="key" @click="goToComment (ticket.id_ticket)" >
                     <a class="panel-block is-active">
                         <span class="panel-icon">
                         <i class="fas fa-book" aria-hidden="true"></i>
                         </span>
-                        bulma
-                    </a>
-                    <a class="panel-block">
-                        <span class="panel-icon">
-                        <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                        marksheet
+                        {{ticket.label}}
                     </a>
                     <!-- Afficher le contenu ici -->
-                </div>
-                <div v-if="activeTab === 'close'">
-                    <!-- Afficher le contenu ici -->
-                    <a class="panel-block">
-                        <span class="panel-icon">
-                        <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                        minireset.css
-                    </a>
-                    <a class="panel-block">
-                        <span class="panel-icon">
-                        <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                        jgthms.github.io
-                    </a>
                 </div>
             </div>
         </section>
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+import TicketService from '@/services/TicketService'
 export default {
+  computed: {
+    ...mapState(['ticketss'])
+  },
   data () {
     return {
       activeTab: 'open',
       tabs: [
         { name: 'open' },
         { name: 'close' }
-      ]
+      ],
+      tickets: []
     }
   },
   methods: {
     setActiveTab (tab) {
       this.activeTab = tab
+    },
+    loadTickets () {
+      // this.$store.dispatch('getTickets')
+      this.$store.dispatch({ type: 'getTickets' }).then(data => {
+        console.log('tickets', data)
+      }).catch(error => {
+        console.log('error', error)
+      })
+    },
+    getTickets () {
+      const data = TicketService.findAll().data
+      console.log('data', data)
+    },
+    goToComment (id) {
+      this.$router.push({ name: 'Commentaire', params: { id } })
     }
+  },
+  mounted () {
+    // this.loadTickets()
+    TicketService.findAll().then(response => {
+      console.log('tickets', response.data)
+      this.tickets = response.data
+    }).catch(error => {
+      console.log('error', error)
+    })
+  },
+  created: () => {
+    // this.$store.dispatch('getTickets')
   }
 }
 </script>

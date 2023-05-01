@@ -3,11 +3,11 @@
         <section class="section container">
             <div class="columns">
                 <div class="column is-three-quarters"> <!--v-if="isComment"-->
-                    <div><!--v-for="comment in comments" :key="comment.id"-->
+                    <div v-for="(comment, key) in messages" v-bind:key="key"><!--v-for="comment in comments" :key="comment.id"-->
                         <div class="panel">
-                            <div class="panel-heading is-size-6 has-text-left"><span class="has-text-weight-semibold">jjjjj{{ author }}</span> <span class="has-text-weight-light">commented on {{ date }}</span></div>
+                            <div class="panel-heading is-size-6 has-text-left"><span class="has-text-weight-semibold">{{ comment.user.name }}</span> <span class="has-text-weight-light">a commenté</span></div>
                             <div class="panel-block">
-                                <p>{{ comment }}jjjjjjj</p>
+                                <p>{{ comment.comment }}</p>
                             </div>
                         </div>
                     </div>
@@ -17,11 +17,11 @@
                 <div class="column is-three-quarters">
                     <div class="form-group">
                         <div class="control">
-                            <textarea class="textarea form-control" rows="5" v-model="message" placeholder="Leave a comment"></textarea>
+                            <textarea class="textarea form-control" rows="5"  placeholder="Leave a comment"></textarea>
                         </div>
                         <div class="file has-name border-dashed pt-3">
                             <label class="custom-file">
-                                <input type="file" class="custom-file-input" placeholder="Attach files by dragging & dropping" @change="fileChanged">
+                                <input type="file" class="custom-file-input" placeholder="Attach files by dragging & dropping">
                                 <span class="custom-file-control"></span>
                             </label>
                             <!--<input type="file" class="form-control-file" id="exampleFormControlFile1">-->
@@ -57,7 +57,50 @@
     </div>
 </template>
 <script>
+import TicketService from '@/services/TicketService'
 export default {
+  computed: {
+  },
+  data () {
+    return {
+      tickets: [],
+      tags: [],
+      messages: []
+    }
+  },
+  methods: {
+
+    getTicketById (id) {
+    },
+    getTags (id) {
+      this.$router.push({ name: 'Commentaire', params: { id } })
+    },
+    getMessage (id) {
+      TicketService.getMsgByTicketId(id).then(response => {
+        console.log('messages', response.data)
+        this.messages = response.data
+      }).catch(error => {
+        console.log('error', error)
+      })
+    },
+    created: () => {
+    // this.$store.dispatch('getTickets')
+    }
+  },
+  mounted () {
+    // this.loadTickets()
+    TicketService.findAll().then(response => {
+      console.log('tickets', response.data)
+      this.tickets = response.data
+    }).catch(error => {
+      console.log('error', error)
+    })
+
+    this.getMessage(3)
+  },
+  created: () => {
+    // this.$store.dispatch('getTickets')
+  }
 }
 </script>
 

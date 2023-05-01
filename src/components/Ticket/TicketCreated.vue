@@ -10,11 +10,11 @@
                 <div class="column is-three-quarters">
                     <div class="form-group">
                         <div class="control">
-                            <textarea class="textarea form-control" rows="10" v-model="message" placeholder="Leave a comment"></textarea>
+                            <textarea class="textarea form-control" rows="10" placeholder="Leave a comment"></textarea>
                         </div>
                         <div class="file has-name border-dashed pt-3">
                             <label class="custom-file">
-                                <input type="file" class="custom-file-input" placeholder="Attach files by dragging & dropping" @change="fileChanged">
+                                <input type="file" class="custom-file-input" placeholder="Attach files by dragging & dropping">
                                 <span class="custom-file-control"></span>
                             </label>
                             <!--<input type="file" class="form-control-file" id="exampleFormControlFile1">-->
