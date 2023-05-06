@@ -2,6 +2,22 @@
     <div>
         <section class="section container">
             <div class="columns">
+                <div class="column is-three-quarters has-text-left">
+                    <p class="is-size-2">Titre</p>
+                </div>
+                <div class="column">
+                    <div class="control">
+                        <button class="button is-success">
+                            <p class="is-uppercase ml-2">New Issues</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="columns is-full">
+                <button class="button is-success is-rounded">Open</button>
+                <p class="pl-4 is-size-5">zhanaotian {{opened}} this issue on {{date}} · {{nbComment}} comments</p>
+            </div>
+            <div class="columns">
                 <div class="column is-three-quarters"> <!--v-if="isComment"-->
                     <div><!--v-for="comment in comments" :key="comment.id"-->
                         <div class="panel">
